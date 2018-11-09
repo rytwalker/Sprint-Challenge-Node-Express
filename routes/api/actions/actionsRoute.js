@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET single resource
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -26,6 +27,34 @@ router.get('/:id', async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: 'There was a problem getting that action.' });
+  }
+});
+
+// POST add a new resource
+router.post('/', async (req, res) => {
+  const { project_id, description, notes, completed } = req.body;
+  if (!project_id || !description || !notes) {
+    res.status(400).json({ message: 'Please fill in all required fields' });
+  } else if (description.length > 128) {
+    res
+      .status(400)
+      .json({
+        message: 'Make sure your description is only up to 128 characters.'
+      });
+  } else {
+    try {
+      const newAction = await db.insert({
+        project_id,
+        description,
+        notes,
+        completed
+      });
+      res.status(201).json(newAction);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: 'There was an error making a new action.' });
+    }
   }
 });
 
