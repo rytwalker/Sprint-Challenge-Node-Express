@@ -35,9 +35,9 @@ class App extends Component {
     const { projects } = this.state;
     return (
       <div className="App">
-        <h1>Welcome to the post stuff da da da</h1>
+        <h1>Welcome to projects n stuff da da da</h1>
         {!projects ? (
-          <div> loading projects </div>
+          <div style={{ color: '#000' }}> loading projects... </div>
         ) : (
           <Projects projects={projects} />
         )}
