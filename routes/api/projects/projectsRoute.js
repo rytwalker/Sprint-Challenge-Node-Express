@@ -89,4 +89,21 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// DELETE resource
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const count = await db.remove(id);
+    if (!count) {
+      res
+        .status(400)
+        .json({ message: 'There was an error deleting that project' });
+    } else {
+      return res.status(200).json(id);
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Unable to delete resource.' });
+  }
+});
+
 module.exports = router;
