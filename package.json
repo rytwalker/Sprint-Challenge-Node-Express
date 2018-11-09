@@ -1,0 +1,20 @@
+{
+  "name": "Sprint-Challenge-Node-Express",
+  "version": "1.0.0",
+  "description": "Sprintin",
+  "main": "index.js",
+  "repository": "https://github.com/rytwalker/Sprint-Challenge-Node-Express.git",
+  "author": "rytwalker <rytwalker@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
