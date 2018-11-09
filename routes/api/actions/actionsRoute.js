@@ -34,13 +34,13 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const { project_id, description, notes, completed } = req.body;
   if (!project_id || !description || !notes) {
-    res.status(400).json({ message: 'Please fill in all required fields' });
-  } else if (description.length > 128) {
     res
       .status(400)
-      .json({
-        message: 'Make sure your description is only up to 128 characters.'
-      });
+      .json({ message: 'Please fill in all required fields. Please.' });
+  } else if (description.length > 128) {
+    res.status(400).json({
+      message: 'Make sure your description is only up to 128 characters.'
+    });
   } else {
     try {
       const newAction = await db.insert({
@@ -50,6 +50,41 @@ router.post('/', async (req, res) => {
         completed
       });
       res.status(201).json(newAction);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: 'There was an error making a new action.' });
+    }
+  }
+});
+
+// PUT update a resource
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { project_id, description, notes, completed } = req.body;
+  if (
+    (project_id && project_id.length === 0) ||
+    (description && description.length === 0) ||
+    (notes && notes.length === 0)
+  ) {
+    res
+      .status(400)
+      .json({ message: 'Please fill in all required fields. Please.' });
+  } else if (description && description.length > 128) {
+    res.status(400).json({
+      message: 'Make sure your description is only up to 128 characters.'
+    });
+  } else {
+    try {
+      const updatedAction = await db.update(id, {
+        project_id,
+        description,
+        notes,
+        completed
+      });
+      return !updatedAction
+        ? res.status(404).json({ message: 'That action does not exist' })
+        : res.status(200).json(updatedAction);
     } catch (error) {
       res
         .status(500)
