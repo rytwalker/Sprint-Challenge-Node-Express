@@ -62,15 +62,11 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { project_id, description, notes, completed } = req.body;
-  if (
-    (project_id && project_id.length === 0) ||
-    (description && description.length === 0) ||
-    (notes && notes.length === 0)
-  ) {
+  if (!project_id || !description || !notes) {
     res
       .status(400)
       .json({ message: 'Please fill in all required fields. Please.' });
-  } else if (description && description.length > 128) {
+  } else if (description.length > 128) {
     res.status(400).json({
       message: 'Make sure your description is only up to 128 characters.'
     });

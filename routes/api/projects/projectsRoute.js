@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
       ? res.status(400).json({ message: 'Something went wrong' })
       : res.status(200).json(projects);
   } catch (error) {
-    res.status(500).json({ error: 'There was an error getting the actions' });
+    res.status(500).json({ error: 'There was an error getting the projects' });
   }
 });
 
@@ -38,7 +38,7 @@ router.get('/:id/actions', async (req, res) => {
     if (!projectActions) {
       res
         .status(400)
-        .json({ message: 'There are no project actions that was bad.' });
+        .json({ message: 'There are no project actions... that was bad.' });
     } else {
       res.status(200).json(projectActions);
     }
@@ -80,14 +80,11 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { name, description, completed } = req.body;
-  if (
-    (name && name.length === 0) ||
-    (description && description.length === 0)
-  ) {
+  if (!name || !description) {
     res
       .status(400)
       .json({ message: 'Please fill in all required fields. Please.' });
-  } else if (description && description.length > 128) {
+  } else if (description.length > 128) {
     res.status(400).json({
       message: 'Make sure your description is only up to 128 characters.'
     });
