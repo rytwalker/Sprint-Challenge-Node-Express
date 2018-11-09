@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET single resource by id
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -26,6 +27,25 @@ router.get('/:id', async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: 'There was a problem getting that action.' });
+  }
+});
+
+// GET actions by projects
+router.get('/:id/actions', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const projectActions = await db.getProjectActions(id);
+    if (!projectActions) {
+      res
+        .status(400)
+        .json({ message: 'There are no project actions that was bad.' });
+    } else {
+      res.status(200).json(projectActions);
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: 'There was an error completing this request.' });
   }
 });
 
