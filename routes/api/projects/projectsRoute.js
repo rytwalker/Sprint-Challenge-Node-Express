@@ -98,13 +98,13 @@ router.put('/:id', async (req, res) => {
         description,
         completed
       });
-      return !updatedAction
-        ? res.status(404).json({ message: 'That action does not exist' })
+      return !updatedProject
+        ? res.status(404).json({ message: 'That project does not exist' })
         : res.status(200).json(updatedProject);
     } catch (error) {
       res
         .status(500)
-        .json({ error: 'There was an error making a new action.' });
+        .json({ error: 'There was an error making a new project.' });
     }
   }
 });
